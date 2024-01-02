@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocityRatio: 1
-  catchDistance: 0.2
+  catchDistance: 0.3
   sitDistance: 0.8
   _navmeshManager: {fileID: 0}
   heldBall: {fileID: 8486701998632574132}

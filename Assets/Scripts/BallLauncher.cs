@@ -10,6 +10,9 @@ public class BallLauncher : MonoBehaviour {
     private static bool ready = true;
 
     void Update() {
+        if (Ball.instance != null && Ball.instance.transform.position.y < -10)
+            RecallBall();
+
         if (HasBeenThrown())
             return;
 

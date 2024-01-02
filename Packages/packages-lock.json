@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.autodesk.fbx": {
+      "version": "4.2.1",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.nianticlabs.lightship": {
       "version": "https://github.com/niantic-lightship/ardk-upm.git",
       "depth": 0,
@@ -50,6 +57,16 @@
         "com.unity.test-framework": "1.1.33",
         "com.unity.testtools.codecoverage": "1.2.4"
       }
+    },
+    "com.unity.formats.fbx": {
+      "version": "4.2.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.timeline": "1.7.1",
+        "com.autodesk.fbx": "4.2.1"
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
       "version": "3.0.26",
@@ -259,6 +276,46 @@
         "com.unity.xr.core-utils": "2.1.1"
       },
       "url": "https://packages.unity.com"
+    },
+    "com.vrmc.gltf": {
+      "version": "https://github.com/vrm-c/UniVRM.git?path=/Assets/UniGLTF#v0.116.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.vrmc.vrmshaders": "0.116.0",
+        "com.unity.modules.animation": "1.0.0"
+      },
+      "hash": "0f6c4b13847c4eb70ebdaafe7789bd71d986373a"
+    },
+    "com.vrmc.univrm": {
+      "version": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRM#v0.116.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.vrmc.vrmshaders": "0.116.0",
+        "com.vrmc.gltf": "0.116.0",
+        "com.unity.ugui": "1.0.0"
+      },
+      "hash": "0f6c4b13847c4eb70ebdaafe7789bd71d986373a"
+    },
+    "com.vrmc.vrm": {
+      "version": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRM10#v0.116.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.vrmc.vrmshaders": "0.116.0",
+        "com.vrmc.gltf": "0.116.0"
+      },
+      "hash": "0f6c4b13847c4eb70ebdaafe7789bd71d986373a"
+    },
+    "com.vrmc.vrmshaders": {
+      "version": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRMShaders#v0.116.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.modules.imageconversion": "1.0.0"
+      },
+      "hash": "0f6c4b13847c4eb70ebdaafe7789bd71d986373a"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

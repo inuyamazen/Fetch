@@ -5,17 +5,20 @@ using UnityEngine.EventSystems;
 public class Kiba : MonoBehaviour {
 
     [SerializeField]
-    private float velocityRatio = 1f, catchDistance = 0.2f, sitDistance = 0.3f;
+    private float _velocityRatio = 0.1f, _catchDistance = 0.3f, _sitDistance = 0.3f, _lookRate = 2f;
     [SerializeField]
     private LightshipNavMeshManager _navmeshManager;
     private LightshipNavMeshAgent _agent;
     private bool caught = false, waiting = false;
     [SerializeField]
     private GameObject heldBall;
+    private Animator _animator;
+
 
     private void Start() {
         _agent = GetComponent<LightshipNavMeshAgent>();
         _navmeshManager = NavmeshManagerIdentifier.instance.GetManager();
+        _animator = GetComponent<Animator>();
     }
 
     void LateUpdate() {
@@ -24,21 +27,27 @@ public class Kiba : MonoBehaviour {
             waiting = false;
             heldBall.SetActive(false);
             _agent.StopMoving();
+            _animator.SetBool("isWalking", false);
+            LookAtPlayer();
             return;
         }
 
         if (caught && !waiting) {
             NavigateBack();
+            _animator.SetBool("isWalking", true);
         } else if (caught && waiting) {
             WaitForPickup();
+            _animator.SetBool("isWalking", false);
+            LookAtPlayer();
         } else {
             Fetch();
+            _animator.SetBool("isWalking", true);
         }
     }
 
     private void Fetch() {
         float distance = CalculateFlatDistanceToGoal(Ball.instance.transform.position);
-        if (distance > catchDistance) {
+        if (distance > _catchDistance) {
             Vector3 goal = CalculateGoal();
             _agent.SetDestination(goal);
         } else {
@@ -73,18 +82,24 @@ public class Kiba : MonoBehaviour {
                        transform.position.y,
                        Camera.main.transform.position.z));
         float distance = CalculateFlatDistanceToGoal(Camera.main.transform.position);
-        if (distance < sitDistance) {
+        if (distance < _sitDistance) {
             _agent.StopMoving();
             waiting = true;
-            //change model
         }
     }
 
     private Vector3 CalculateGoal() {
-        return Ball.instance.transform.position + Ball.instance.GetComponent<Rigidbody>().velocity * velocityRatio;
+        return Ball.instance.transform.position + Ball.instance.GetComponent<Rigidbody>().velocity * _velocityRatio;
     }
 
     private float CalculateFlatDistanceToGoal(Vector3 goal) {
         return Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(goal.x, goal.z));
+    }
+
+    private void LookAtPlayer() {
+        Vector3 lookPosition = Camera.main.transform.position - transform.position;
+        lookPosition.y = 0;
+        Quaternion rotation = Quaternion.LookRotation(lookPosition);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * _lookRate);
     }
 }
