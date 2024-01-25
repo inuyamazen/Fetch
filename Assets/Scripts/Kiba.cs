@@ -13,6 +13,7 @@ public class Kiba : MonoBehaviour {
     [SerializeField]
     private GameObject heldBall;
     private Animator _animator;
+    private State state = State.Idle;
 
 
     private void Start() {
@@ -22,27 +23,40 @@ public class Kiba : MonoBehaviour {
     }
 
     void LateUpdate() {
-        if (!BallLauncher.HasBeenThrown()) {
-            caught = false;
-            waiting = false;
-            heldBall.SetActive(false);
-            _agent.StopMoving();
-            _animator.SetBool("isWalking", false);
-            LookAtPlayer();
-            return;
+        state = CheckState();
+        switch (state) {
+            case State.Idle:
+                caught = false;
+                waiting = false;
+                heldBall.SetActive(false);
+                _agent.StopMoving();
+                _animator.SetBool("isWalking", false);
+                LookAtPlayer();
+                return;
+            case State.ComingBack:
+                NavigateBack();
+                _animator.SetBool("isWalking", true);
+                break;
+            case State.WaitingForPickup:
+                WaitForPickup();
+                _animator.SetBool("isWalking", false);
+                LookAtPlayer();
+                break;
+            case State.Chasing:
+                Fetch();
+                _animator.SetBool("isWalking", true);
+                break;
         }
+    }
 
-        if (caught && !waiting) {
-            NavigateBack();
-            _animator.SetBool("isWalking", true);
-        } else if (caught && waiting) {
-            WaitForPickup();
-            _animator.SetBool("isWalking", false);
-            LookAtPlayer();
-        } else {
-            Fetch();
-            _animator.SetBool("isWalking", true);
-        }
+    private State CheckState() {
+        if (!BallLauncher.HasBeenThrown())
+            return State.Idle;
+        if (caught && !waiting)
+            return State.ComingBack;
+        if (caught && waiting)
+            return State.WaitingForPickup;
+        return State.Chasing;
     }
 
     private void Fetch() {
@@ -101,5 +115,9 @@ public class Kiba : MonoBehaviour {
         lookPosition.y = 0;
         Quaternion rotation = Quaternion.LookRotation(lookPosition);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * _lookRate);
+    }
+
+    private enum State {
+        Idle, Chasing, ComingBack, WaitingForPickup
     }
 }

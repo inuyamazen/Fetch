@@ -8,27 +8,13 @@ public class GameManager : MonoBehaviour {
     private float _delay = 1f;
     [SerializeField]
     private GameObject _kibaPrefab;
-    [SerializeField]
-    private GameObject _loadingPanel;
-    [SerializeField]
-    private Button _resetButton;
-    [SerializeField]
-    private Button _recallButton;
-    [SerializeField]
-    private Button _tutorialButton;
-    [SerializeField]
-    private GameObject _tutorialPanel;
-    [SerializeField]
-    private GameObject _ballIcon;
 
     private GameObject _kiba;
+    private UIManager _uimanager;
 
     private void Start() {
+        _uimanager = UIManager.instance;
         Restart();
-    }
-
-    private void Update() {
-        _ballIcon.SetActive(!BallLauncher.HasBeenThrown());
     }
 
     private IEnumerator DelayedSpawn() {
@@ -47,26 +33,9 @@ public class GameManager : MonoBehaviour {
         BallLauncher.RecallBall();
         if (_kiba != null)
             Destroy(_kiba);
-        SetButtonsActive(false);
-        _loadingPanel.SetActive(true);
+        _uimanager.OpenLoading();
         yield return StartCoroutine(DelayedSpawn());
-        SetButtonsActive(true);
-        _loadingPanel.SetActive(false);
+        _uimanager.CloseLoading();
     }
 
-    public void SetButtonsActive(bool active) {
-        _resetButton.interactable = active;
-        _recallButton.interactable = active;
-        _tutorialButton.interactable = active;
-    }
-
-    public void OpenTutorial() {
-        SetButtonsActive(false);
-        _tutorialPanel.SetActive(true);
-    }
-
-    public void CloseTutorial() {
-        _tutorialPanel.SetActive(false);
-        SetButtonsActive(true);
-    }
 }

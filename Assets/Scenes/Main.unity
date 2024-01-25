@@ -154,12 +154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _delay: 1
   _kibaPrefab: {fileID: 3077334546922194225, guid: 77309a6146cc7b9498305a6cf5930d2d, type: 3}
-  _loadingPanel: {fileID: 735669918}
-  _resetButton: {fileID: 897338172}
-  _recallButton: {fileID: 849824495}
-  _tutorialButton: {fileID: 186755703}
-  _tutorialPanel: {fileID: 433387768}
-  _ballIcon: {fileID: 1261694115}
 --- !u!4 &6717583
 Transform:
   m_ObjectHideFlags: 0
@@ -423,8 +417,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6717582}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 664606931}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: OpenTutorial
         m_Mode: 1
         m_Arguments:
@@ -518,11 +512,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86b456713bd4d4c31b3cb04c67d82381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetFrameRate: 20
+  _targetFrameRate: 50
   _maximumIntegrationDistance: 10
   _voxelSize: 0.025
   _enableDistanceBasedVolumetricCleanup: 1
-  _meshBlockSize: 3
+  _meshBlockSize: 1.4
   _meshCullingDistance: 0
   _enableMeshDecimation: 1
 --- !u!114 &214146974
@@ -1151,7 +1145,7 @@ GameObject:
   - component: {fileID: 664606927}
   - component: {fileID: 664606931}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1255,6 +1249,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5369e2e12ac743348be7d6efece5f6ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _loadingPanel: {fileID: 735669918}
+  _resetButton: {fileID: 897338172}
+  _recallButton: {fileID: 849824495}
+  _tutorialButton: {fileID: 186755703}
+  _tutorialPanel: {fileID: 433387768}
+  _ballIcon: {fileID: 1261694115}
 --- !u!1 &675934600
 GameObject:
   m_ObjectHideFlags: 0
@@ -1281,7 +1281,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 675934600}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23b074ffe53f349158f83a6df3594ccd, type: 3}
   m_Name: 
@@ -2097,8 +2097,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6717582}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 664606931}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: CloseTutorial
         m_Mode: 1
         m_Arguments:
