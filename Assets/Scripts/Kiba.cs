@@ -9,11 +9,12 @@ public class Kiba : MonoBehaviour {
     [SerializeField]
     private LightshipNavMeshManager _navmeshManager;
     private LightshipNavMeshAgent _agent;
-    private bool caught = false, waiting = false;
+    private bool _caught = false, _waiting = false;
     [SerializeField]
-    private GameObject heldBall;
+    private GameObject _heldBall;
     private Animator _animator;
-    private State state = State.Idle;
+    private State _state = State.Idle;
+    private float _fetchDistance = 0;
 
 
     private void Start() {
@@ -23,12 +24,12 @@ public class Kiba : MonoBehaviour {
     }
 
     void LateUpdate() {
-        state = CheckState();
-        switch (state) {
+        _state = CheckState();
+        switch (_state) {
             case State.Idle:
-                caught = false;
-                waiting = false;
-                heldBall.SetActive(false);
+                _caught = false;
+                _waiting = false;
+                _heldBall.SetActive(false);
                 _agent.StopMoving();
                 _animator.SetBool("isWalking", false);
                 LookAtPlayer();
@@ -52,9 +53,9 @@ public class Kiba : MonoBehaviour {
     private State CheckState() {
         if (!BallLauncher.HasBeenThrown())
             return State.Idle;
-        if (caught && !waiting)
+        if (_caught && !_waiting)
             return State.ComingBack;
-        if (caught && waiting)
+        if (_caught && _waiting)
             return State.WaitingForPickup;
         return State.Chasing;
     }
@@ -65,9 +66,12 @@ public class Kiba : MonoBehaviour {
             Vector3 goal = CalculateGoal();
             _agent.SetDestination(goal);
         } else {
-            caught = true;
+            _caught = true;
             Destroy(Ball.instance.gameObject);
-            heldBall.SetActive(true);
+            _heldBall.SetActive(true);
+            _fetchDistance = Vector2.Distance(
+                new Vector2(transform.position.x, transform.position.z),
+                new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.z));
         }
     }
 
@@ -85,9 +89,10 @@ public class Kiba : MonoBehaviour {
 #endif
         if (hitInfo.transform.gameObject.Equals(gameObject)) {
             BallLauncher.RecallBall();
-            caught = false;
-            waiting = false;
-            heldBall.SetActive(false);
+            _caught = false;
+            _waiting = false;
+            _heldBall.SetActive(false);
+            UIManager.instance.Fetched(_fetchDistance);
         }
     }
 
@@ -98,7 +103,7 @@ public class Kiba : MonoBehaviour {
         float distance = CalculateFlatDistanceToGoal(Camera.main.transform.position);
         if (distance < _sitDistance) {
             _agent.StopMoving();
-            waiting = true;
+            _waiting = true;
         }
     }
 

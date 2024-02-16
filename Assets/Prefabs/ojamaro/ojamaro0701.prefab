@@ -2286,7 +2286,7 @@ MonoBehaviour:
   _sitDistance: 0.8
   _lookRate: 2
   _navmeshManager: {fileID: 0}
-  heldBall: {fileID: 905199333782847348}
+  _heldBall: {fileID: 905199333782847348}
 --- !u!135 &5342835985473308917
 SphereCollider:
   m_ObjectHideFlags: 0

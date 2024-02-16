@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -18,6 +19,14 @@ public class UIManager : MonoBehaviour
     private GameObject _tutorialPanel;
     [SerializeField]
     private GameObject _ballIcon;
+    [SerializeField]
+    private TextMeshProUGUI _fetchedText;
+    [SerializeField]
+    private TextMeshProUGUI _longestText;
+
+    private int _fetchedNumber = 0;
+    private float _longestDistance = 0;
+    private const string _fetchedString = "Fetched: ", _longestString = "Longest: ";
 
     void Awake() {
         if (instance != null && instance != this)
@@ -49,7 +58,16 @@ public class UIManager : MonoBehaviour
         SetButtonsActive(true);
     }
 
-    private void Update() {
+    public void UpdateBallIcon() {
         _ballIcon.SetActive(!BallLauncher.HasBeenThrown());
+    }
+
+    public void Fetched(float distance) {
+        _fetchedNumber++;
+        _fetchedText.text = _fetchedString + _fetchedNumber;
+        if(distance > _longestDistance) {
+            _longestDistance = distance;
+            _longestText.text = _longestString + distance.ToString("0.00");
+        }
     }
 }

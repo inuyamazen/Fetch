@@ -46,6 +46,7 @@ public class BallLauncher : MonoBehaviour {
                 if (ball.TryGetComponent(out Rigidbody rb)) {
                     rb.AddForce(forw * _force);
                     ready = false;
+                    UIManager.instance.UpdateBallIcon();
                 }
             }
         }
@@ -55,6 +56,7 @@ public class BallLauncher : MonoBehaviour {
         if (Ball.instance != null)
             Destroy(Ball.instance.gameObject);
         ready = true;
+        UIManager.instance.UpdateBallIcon();
     }
 
     public static bool HasBeenThrown() {
